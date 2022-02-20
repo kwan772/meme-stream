@@ -73,7 +73,7 @@ def updateMeme():
                     'vid': post['data']['media'],
                 }, ignore_index=True)
 
-    return ""
+    return df.to_string()
 
 
 
