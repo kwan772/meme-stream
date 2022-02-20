@@ -17,6 +17,8 @@ function App() {
   const TEN_MIN_IN_MS = 600000
   const [onMusic,setOnMusic] = useState(false)
   const [bgm, setBgm] = useState(new Audio(memeBGM))
+  const [auth,setAuth] = useState(false)
+  const [pass,setPass] = useState()
 
   const play = () => {
     if(onMusic){
@@ -159,7 +161,7 @@ function App() {
     useEffect(() => {
 
       const currentTime = new Date().getTime();  //current unix timestamp
-      const execTime = new Date().setHours(22,9,0);  //API call time = today at 20:00
+      const execTime = new Date().setHours(23,30,0);  //API call time = today at 20:00
       let timeLeft;
       if(currentTime < execTime) {
         //it's currently earlier than 20:00
@@ -237,67 +239,86 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-      {meme[currentMeme+1]?        <div style={{height:"950px"}}>
+    
 
-        <div  style={displayCurrent?{height:"950px"}:{height:"950px",display:'none'}}>
-            <h3>{meme[currentMeme].title.replace("fuck","****").replace("shit","****").replace("Bitch","*****").replace("Fuck","****").replace("Shit","****").replace("Bitch","*****").replace("FUCK","****").replace("SHIT","****").replace("BITCH","*****").replace("cunt","****").replace("CUNT","****").replace("Cunt","****").replace("nigger","*****").replace("NIGGER","*****").replace("Nigger","******")}</h3>
-            <div className='memeBox'>
-            <img alt="current meme" src={meme[currentMeme].media} onError={(e) => {
-              if(length>(currentMeme+1)){
-              if(currentMeme > nextMeme){
-                setCurrentMeme(currentMeme+1)
-              }
-              
-              console.log(meme[currentMeme].media)
-              console.log("error img")
-              e.target.onerror = null
-              e.target.src=meme[currentMeme].media
-            }
-            else{
-              setMeme(shuffle(meme))
-              setCurrentMeme(0)
-              console.log("error img")
-              e.target.onerror = null
-              e.target.src=meme[currentMeme].media
-            }}}></img>
-            </div>
-            </div>
+      {auth?
+      <div>
+       <header className="App-header">
+       {meme[currentMeme+1]?        <div style={{height:"950px"}}>
+ 
+         <div  style={displayCurrent?{height:"950px"}:{height:"950px",display:'none'}}>
+             <h3>{meme[currentMeme].title.replace("fuck","****").replace("shit","****").replace("Bitch","*****").replace("Fuck","****").replace("Shit","****").replace("Bitch","*****").replace("FUCK","****").replace("SHIT","****").replace("BITCH","*****").replace("cunt","****").replace("CUNT","****").replace("Cunt","****").replace("nigger","*****").replace("NIGGER","*****").replace("Nigger","******")}</h3>
+             <div className='memeBox'>
+             <img alt="current meme" src={meme[currentMeme].media} onError={(e) => {
+               if(length>(currentMeme+1)){
+               if(currentMeme > nextMeme){
+                 setCurrentMeme(currentMeme+1)
+               }
+               
+               console.log(meme[currentMeme].media)
+               console.log("error img")
+               e.target.onerror = null
+               e.target.src=meme[currentMeme].media
+             }
+             else{
+               setMeme(shuffle(meme))
+               setCurrentMeme(0)
+               console.log("error img")
+               e.target.onerror = null
+               e.target.src=meme[currentMeme].media
+             }}}></img>
+             </div>
+             </div>
+ 
+             <div style={displayCurrent?{height:"950px",display:'none'}:{height:"950px"}}>
+             <h3>{meme[nextMeme].title.replace("fuck","****").replace("shit","****").replace("Bitch","*****").replace("Fuck","****").replace("Shit","****").replace("Bitch","*****").replace("FUCK","****").replace("SHIT","****").replace("BITCH","*****").replace("cunt","****").replace("CUNT","****").replace("Cunt","****").replace("nigger","*****").replace("NIGGER","*****").replace("Nigger","******")}</h3>
+             <div className='memeBox'>
+             <img alt="next meme" src={meme[nextMeme].media} onError={(e) => {
+               if(length>(nextMeme+1)){
+                 setNextMeme(nextMeme+1)
+                 console.log(meme[nextMeme].media)
+                 console.log("error img")
+                 e.target.onerror = null
+                 e.target.src=meme[nextMeme].media
+               }
+               else{
+                 setMeme(shuffle(meme))
+                 setNextMeme(0)
+                 console.log("error img")
+                 e.target.onerror = null
+                 e.target.src=meme[nextMeme].media
+               }
+             }}></img>
+             </div>
+             </div>
+           </div>:null}
+         <span className="timer">{seconds}</span>
+       </header>
+ 
+       {/* <img src={"https://i.redd.it/rs7pju6muo881.jpg"} 
+       onError={({ currentTarget }) => {
+         currentTarget.onerror = null; // prevents looping
+         currentTarget.src="https://i.redd.it/u6anbsaoed381.jpg";
+       }}
+       
+     ></img> */}
+ 
+ <button onClick={play} style={{marginTop:1000}}>Boop!</button>
+ </div>
+:<div>Password: <input onChange={({target:{value}}) => {
+  setPass(value)
+}}></input> <button onClick={() => {
+  if(pass === "goodfun") {
+    setAuth(true)
+  }
+  else{
+    setAuth(false)
+  }
+}}>submit</button></div>
 
-            <div style={displayCurrent?{height:"950px",display:'none'}:{height:"950px"}}>
-            <h3>{meme[nextMeme].title.replace("fuck","****").replace("shit","****").replace("Bitch","*****").replace("Fuck","****").replace("Shit","****").replace("Bitch","*****").replace("FUCK","****").replace("SHIT","****").replace("BITCH","*****").replace("cunt","****").replace("CUNT","****").replace("Cunt","****").replace("nigger","*****").replace("NIGGER","*****").replace("Nigger","******")}</h3>
-            <div className='memeBox'>
-            <img alt="next meme" src={meme[nextMeme].media} onError={(e) => {
-              if(length>(nextMeme+1)){
-                setNextMeme(nextMeme+1)
-                console.log(meme[nextMeme].media)
-                console.log("error img")
-                e.target.onerror = null
-                e.target.src=meme[nextMeme].media
-              }
-              else{
-                setMeme(shuffle(meme))
-                setNextMeme(0)
-                console.log("error img")
-                e.target.onerror = null
-                e.target.src=meme[nextMeme].media
-              }
-            }}></img>
-            </div>
-            </div>
-          </div>:null}
-        <span className="timer">{seconds}</span>
-      </header>
+}
 
-      {/* <img src={"https://i.redd.it/rs7pju6muo881.jpg"} 
-      onError={({ currentTarget }) => {
-        currentTarget.onerror = null; // prevents looping
-        currentTarget.src="https://i.redd.it/u6anbsaoed381.jpg";
-      }}
-      
-    ></img> */}
-
-<button onClick={play} style={{marginTop:1000}}>Boop!</button>
+     
     </div>
   );
 }

@@ -15,12 +15,14 @@ def serve():
     return send_from_directory(app.static_folder, 'index.html')
 
 @app.route("/members")
+@cross_origin()
 def members(): 
     memeData = pd.read_csv('memeBase.csv',error_bad_lines=False)
     memeJson = memeData.to_json()
     return memeJson
 
 @app.route("/checkImage")
+@cross_origin()
 def checkImage(): 
     src = request.args.get("src")
     print(src)
@@ -29,6 +31,7 @@ def checkImage():
     return str(r.status_code)
 
 @app.route("/updateMeme")
+@cross_origin()
 def updateMeme():
     CLIENT_ID = 'QkDNs7eGBfuqvm8zljd_Rg'
     SECRET_KEY = '-QNzDm4geXSCbMvdkTYOynWAKSa8pQ'
