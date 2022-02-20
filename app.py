@@ -1,12 +1,18 @@
-from flask import Flask
+from flask import Flask,render_template,send_from_directory,request, jsonify, make_response
 import pandas as pd
 import requests
+from flask_cors import CORS, cross_origin
 import datetime
 from os.path import exists
 import os
-from flask import request
 
-app = Flask(__name__)
+app = Flask(__name__ 
+    ,static_folder='client/build',static_url_path='')
+cors = CORS(app)
+
+@app.route('/')
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route("/members")
 def members(): 
@@ -141,5 +147,5 @@ def updateMeme():
 
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
